@@ -20,6 +20,13 @@ class LoginFragment : BaseFragment(R.layout.fragment_login) {
     private val binding by viewBinding(FragmentLoginBinding::bind)
     private val viewModel by viewModels<LoginViewModel>()
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        binding.button.setOnClickListener {
+            navigateToMain()
+        }
+    }
+
     private fun navigateToMain(){
         navigate(R.id.mainFragment)
     }
