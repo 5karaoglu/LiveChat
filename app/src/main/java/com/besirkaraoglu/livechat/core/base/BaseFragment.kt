@@ -6,7 +6,7 @@ import android.view.View
 import androidx.fragment.app.Fragment
 import timber.log.Timber
 
-class BaseFragment: Fragment {
+open class BaseFragment: Fragment {
 
     constructor() : super()
     constructor(contentLayoutId: Int) : super(contentLayoutId)
