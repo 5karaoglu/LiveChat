@@ -2,14 +2,17 @@ package com.besirkaraoglu.livechat.core.base
 
 import android.content.Context
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import com.besirkaraoglu.livechat.core.utils.ScreenAnalyticsHandler
+import com.besirkaraoglu.livechat.core.utils.ScreenAnalyticsHandlerImpl
 import timber.log.Timber
 
-open class BaseFragment: Fragment {
+open class BaseFragment(contentLayoutId: Int): Fragment(contentLayoutId),
+    ScreenAnalyticsHandler by ScreenAnalyticsHandlerImpl() {
 
-    constructor() : super()
-    constructor(contentLayoutId: Int) : super(contentLayoutId)
 
     var baseContext: Context? = null
 
@@ -18,9 +21,18 @@ open class BaseFragment: Fragment {
         baseContext = context
     }
 
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        registerLifecycleOwner(this)
+        return super.onCreateView(inflater, container, savedInstanceState)
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        Timber.tag("LifeCycle").v("${name()} onViewCreated")
+        Timber.tag("Lifecycle").v("${name()} onViewCreated")
     }
 
     private fun name(): String {
