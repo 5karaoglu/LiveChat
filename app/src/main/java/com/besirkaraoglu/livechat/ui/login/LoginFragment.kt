@@ -10,8 +10,8 @@ import androidx.navigation.fragment.findNavController
 import com.besirkaraoglu.livechat.R
 import com.besirkaraoglu.livechat.core.base.BaseFragment
 import com.besirkaraoglu.livechat.databinding.FragmentLoginBinding
-import com.besirkaraoglu.livechat.utils.binding.viewBinding
-import com.besirkaraoglu.livechat.utils.navigate
+import com.besirkaraoglu.livechat.core.utils.binding.viewBinding
+import com.besirkaraoglu.livechat.core.utils.navigate
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

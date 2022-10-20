@@ -3,7 +3,7 @@ package com.besirkaraoglu.livechat
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.besirkaraoglu.livechat.databinding.ActivityMainBinding
-import com.besirkaraoglu.livechat.utils.binding.viewBinding
+import com.besirkaraoglu.livechat.core.utils.binding.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

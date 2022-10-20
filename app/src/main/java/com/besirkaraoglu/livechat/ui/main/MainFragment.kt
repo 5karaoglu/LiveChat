@@ -8,7 +8,7 @@ import androidx.fragment.app.viewModels
 import com.besirkaraoglu.livechat.R
 import com.besirkaraoglu.livechat.core.base.BaseFragment
 import com.besirkaraoglu.livechat.databinding.FragmentMainBinding
-import com.besirkaraoglu.livechat.utils.binding.viewBinding
+import com.besirkaraoglu.livechat.core.utils.binding.viewBinding
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.MapView
 import com.google.android.gms.maps.OnMapReadyCallback

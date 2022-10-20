@@ -1,4 +1,4 @@
-package com.besirkaraoglu.livechat.utils
+package com.besirkaraoglu.livechat.core.utils
 
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController

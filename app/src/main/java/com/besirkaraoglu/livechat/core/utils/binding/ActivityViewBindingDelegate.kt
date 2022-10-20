@@ -1,4 +1,4 @@
-package com.besirkaraoglu.livechat.utils.binding
+package com.besirkaraoglu.livechat.core.utils.binding
 
 import android.view.LayoutInflater
 import androidx.appcompat.app.AppCompatActivity
