@@ -1,4 +1,4 @@
-package com.hms.socialsteps.utils.binding
+package com.besirkaraoglu.livechat.utils.binding
 
 import android.view.LayoutInflater
 import androidx.appcompat.app.AppCompatActivity
