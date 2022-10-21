@@ -1,7 +1,7 @@
 package com.besirkaraoglu.livechat.core
 
 import android.app.Application
-import androidx.viewbinding.BuildConfig
+import com.besirkaraoglu.livechat.BuildConfig
 import dagger.hilt.android.HiltAndroidApp
 import timber.log.Timber
 

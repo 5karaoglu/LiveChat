@@ -35,6 +35,11 @@ class MainFragment : BaseFragment(R.layout.fragment_main), OnMapReadyCallback {
             mapViewBundle = savedInstanceState.getBundle(MAPVIEW_BUNDLE_KEY)
         }
         mMapView.onCreate(mapViewBundle)
+        if (savedInstanceState == null) viewModel.onFragmentCreated()
+        setUpView()
+    }
+    private fun setUpView() {
+        binding.buttonSend.setOnClickListener { viewModel.sendData() }
     }
 
     override fun onMapReady(map: GoogleMap) {
