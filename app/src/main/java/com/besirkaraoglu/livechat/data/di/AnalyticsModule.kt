@@ -2,14 +2,13 @@ package com.besirkaraoglu.livechat.data.di
 
 import android.annotation.SuppressLint
 import android.content.Context
-import com.besirkaraoglu.livechat.analytics.AnalyticsSender
+import com.besirkaraoglu.livechat.data.repository.AnalyticsRepository
 import com.google.firebase.analytics.FirebaseAnalytics
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
-import javax.inject.Inject
 import javax.inject.Singleton
 
 @Module
@@ -24,6 +23,6 @@ object AnalyticsModule {
 
     @Provides
     @Singleton
-    fun provideAnalyticsSender(firebaseAnalytics: FirebaseAnalytics) =
-        AnalyticsSender(firebaseAnalytics)
+    fun provideAnalyticsRepository(firebaseAnalytics: FirebaseAnalytics) =
+        AnalyticsRepository(firebaseAnalytics)
 }

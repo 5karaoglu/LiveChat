@@ -1,9 +1,13 @@
-package com.besirkaraoglu.livechat.analytics
+package com.besirkaraoglu.livechat.data.repository
 
+import com.besirkaraoglu.livechat.analytics.AnalyticsEvent
+import com.besirkaraoglu.livechat.analytics.AnalyticsProperty
+import com.besirkaraoglu.livechat.analytics.AnalyticsProvider
+import com.besirkaraoglu.livechat.analytics.toBundle
 import com.google.firebase.analytics.FirebaseAnalytics
 import timber.log.Timber
 
-class AnalyticsSender(
+class AnalyticsRepository(
     private val firebaseAnalytics: FirebaseAnalytics
 ) {
 
