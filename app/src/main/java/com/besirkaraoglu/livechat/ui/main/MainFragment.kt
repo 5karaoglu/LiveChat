@@ -28,6 +28,12 @@ class MainFragment : BaseFragment(R.layout.fragment_main), OnMapReadyCallback {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        initMapView(savedInstanceState)
+        if (savedInstanceState == null) viewModel.onFragmentCreated()
+        setUpView()
+    }
+
+    private fun initMapView(savedInstanceState: Bundle?){
         mMapView = binding.mapView
         mMapView.getMapAsync(this)
         var mapViewBundle: Bundle? = null
@@ -35,9 +41,8 @@ class MainFragment : BaseFragment(R.layout.fragment_main), OnMapReadyCallback {
             mapViewBundle = savedInstanceState.getBundle(MAPVIEW_BUNDLE_KEY)
         }
         mMapView.onCreate(mapViewBundle)
-        if (savedInstanceState == null) viewModel.onFragmentCreated()
-        setUpView()
     }
+
     private fun setUpView() {
         binding.buttonSend.setOnClickListener { viewModel.sendData() }
     }
