@@ -34,54 +34,41 @@ class LoginFragment : BaseFragment(R.layout.fragment_login) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        checkIfPendingResult()
 
-        binding.button.setOnClickListener {
-            loginWithTwitter()
+        initListeners()
+    }
+
+    private fun initListeners() {
+        binding.buttonLoginWithTwitter.setOnClickListener {
+            checkIfPendingResult()
         }
     }
 
     private fun checkIfPendingResult() {
         val pendingResultTask: Task<AuthResult>? = firebaseAuth.pendingAuthResult
         if (pendingResultTask != null) {
-            // There's something already here! Finish the sign-in for your user.
             pendingResultTask
-                .addOnSuccessListener(
-                    OnSuccessListener<AuthResult?> {
-                        // User is signed in.
-                        // IdP data available in
-                        // authResult.getAdditionalUserInfo().getProfile().
-                        // The OAuth access token can also be retrieved:
-                        // ((OAuthCredential)authResult.getCredential()).getAccessToken().
-                        // The OAuth secret can be retrieved by calling:
-                        // ((OAuthCredential)authResult.getCredential()).getSecret().
-                    })
-                .addOnFailureListener(
-                    OnFailureListener {
-                        // Handle failure.
-                    })
+                .addOnSuccessListener(handleSuccessfulLogin)
+                .addOnFailureListener(handleFailedLogin)
         } else {
-            // There's no pending result so you need to start the sign-in flow.
-            // See below.
+            loginWithTwitter()
         }
     }
 
     private fun loginWithTwitter() {
         firebaseAuth
-            .startActivityForSignInWithProvider( /* activity= */requireActivity(), provider.build())
-            .addOnSuccessListener {
-                // User is signed in.
-                // IdP data available in
-                // authResult.getAdditionalUserInfo().getProfile().
-                // The OAuth access token can also be retrieved:
-                // ((OAuthCredential)authResult.getCredential()).getAccessToken().
-                // The OAuth secret can be retrieved by calling:
-                // ((OAuthCredential)authResult.getCredential()).getSecret().
-                Timber.tag("Twitter").d( "loginWithTwitter: %s", it.additionalUserInfo?.profile)
-            }
-            .addOnFailureListener {
-                showToastShort("Login failed! ${it.message}")
-            }
+            .startActivityForSignInWithProvider(requireActivity(), provider.build())
+            .addOnSuccessListener(handleSuccessfulLogin)
+            .addOnFailureListener(handleFailedLogin)
+    }
+
+    private val handleSuccessfulLogin = OnSuccessListener<AuthResult> { authResult ->
+        Timber.d("TwitterAuth successful.")
+        navigateToMain()
+    }
+
+    private val handleFailedLogin = OnFailureListener { e ->
+        showToastShort("Login failed! ${e.message}")
     }
 
     private fun navigateToMain(){
