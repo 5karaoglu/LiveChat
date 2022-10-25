@@ -70,5 +70,11 @@ dependencies {
     //Firebase Analytics
     implementation 'com.google.firebase:firebase-analytics:21.2.0'
 
+    //Firebase BoM
+    implementation platform('com.google.firebase:firebase-bom:31.0.1')
+
+    //Firebase Auth
+    implementation 'com.google.firebase:firebase-auth'
+
 
 }
