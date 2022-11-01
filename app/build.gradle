@@ -76,5 +76,8 @@ dependencies {
     //Firebase Auth
     implementation 'com.google.firebase:firebase-auth'
 
+    //Google Location
+    implementation 'com.google.android.gms:play-services-location:21.0.0'
+
 
 }
