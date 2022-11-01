@@ -22,4 +22,17 @@
         app:layout_constraintStart_toStartOf="@+id/mapView"
         app:layout_constraintTop_toTopOf="@+id/mapView" />
 
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/buttonShareLocation"
+        style="@style/Widget.Material3.Button.Icon"
+        app:icon="@drawable/ic_round_add_location_24"
+        android:layout_margin="16dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/share_location"
+        android:textSize="12sp"
+        android:textAllCaps="false"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
