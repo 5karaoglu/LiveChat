@@ -42,6 +42,10 @@ class LoginFragment : BaseFragment(R.layout.fragment_login) {
         binding.buttonLoginWithTwitter.setOnClickListener {
             checkIfPendingResult()
         }
+        //temporary button to pass login process
+        binding.buttonPassLogin.setOnClickListener {
+            navigateToMain()
+        }
     }
 
     private fun checkIfPendingResult() {
