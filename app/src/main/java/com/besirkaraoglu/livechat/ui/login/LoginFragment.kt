@@ -6,11 +6,14 @@ import android.view.View
 import android.widget.Toast
 import androidx.fragment.app.viewModels
 import com.besirkaraoglu.livechat.R
+import com.besirkaraoglu.livechat.core.DESCRIPTION_KEY_TWITTER
 import com.besirkaraoglu.livechat.core.PROVIDER_ID_TWITTER
 import com.besirkaraoglu.livechat.core.base.BaseFragment
+import com.besirkaraoglu.livechat.core.utils.Resource
 import com.besirkaraoglu.livechat.core.utils.binding.viewBinding
 import com.besirkaraoglu.livechat.core.utils.navigate
 import com.besirkaraoglu.livechat.core.utils.showToastShort
+import com.besirkaraoglu.livechat.data.model.Users
 import com.besirkaraoglu.livechat.databinding.FragmentLoginBinding
 import com.google.android.gms.tasks.OnFailureListener
 import com.google.android.gms.tasks.OnSuccessListener
@@ -18,6 +21,8 @@ import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.OAuthProvider
+import com.google.firebase.ktx.Firebase
+import com.google.gson.Gson
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
 
@@ -66,9 +71,30 @@ class LoginFragment : BaseFragment(R.layout.fragment_login) {
             .addOnFailureListener(handleFailedLogin)
     }
 
+    private fun insertUser(user: Users){
+        viewModel.insertUser(user)
+        viewModel.insertResult.observe(viewLifecycleOwner){ result ->
+            when(result){
+                is Resource.Error -> {
+                    Timber.e(result.message)
+                }
+                is Resource.Loading -> {
+                    Timber.d("Insert started.")
+                }
+                is Resource.Success -> {
+                    Timber.d("Insert Succeed.")
+                    navigateToMain()
+                }
+            }
+        }
+    }
+
     private val handleSuccessfulLogin = OnSuccessListener<AuthResult> { authResult ->
         Timber.d("TwitterAuth successful.")
-        navigateToMain()
+        with(authResult.user!!){
+            insertUser(Users(uid,authResult.additionalUserInfo?.username,displayName,photoUrl.toString(),
+                authResult.additionalUserInfo?.profile?.get(DESCRIPTION_KEY_TWITTER).toString()))
+        }
     }
 
     private val handleFailedLogin = OnFailureListener { e ->
