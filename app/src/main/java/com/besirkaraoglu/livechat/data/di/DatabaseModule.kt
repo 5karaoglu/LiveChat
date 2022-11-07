@@ -26,12 +26,12 @@ object DatabaseModule {
     @Singleton
     fun provideUsersRepository(database: FirebaseDatabase): UsersRepository =
         UsersRepository(
-            database.getReference(RealtimeDatabaseUtils.INSTANCE_USERS))
+            database.reference.child(RealtimeDatabaseUtils.INSTANCE_USERS))
 
     @Provides
     @Singleton
     fun provideMessagesRepository(database: FirebaseDatabase): MessagesRepository =
         MessagesRepository(
-            database.getReference(RealtimeDatabaseUtils.INSTANCE_MESSAGES))
+            database.reference.child(RealtimeDatabaseUtils.INSTANCE_MESSAGES))
 
 }
