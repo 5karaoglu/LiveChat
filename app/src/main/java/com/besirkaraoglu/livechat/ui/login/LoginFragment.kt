@@ -6,7 +6,9 @@ import android.view.View
 import android.widget.Toast
 import androidx.fragment.app.viewModels
 import com.besirkaraoglu.livechat.R
+import com.besirkaraoglu.livechat.core.BANNER_URL_KEY_TWITTER
 import com.besirkaraoglu.livechat.core.DESCRIPTION_KEY_TWITTER
+import com.besirkaraoglu.livechat.core.ID_KEY_TWITTER
 import com.besirkaraoglu.livechat.core.PROVIDER_ID_TWITTER
 import com.besirkaraoglu.livechat.core.base.BaseFragment
 import com.besirkaraoglu.livechat.core.utils.Resource
@@ -91,9 +93,13 @@ class LoginFragment : BaseFragment(R.layout.fragment_login) {
 
     private val handleSuccessfulLogin = OnSuccessListener<AuthResult> { authResult ->
         Timber.d("TwitterAuth successful.")
+        val username = authResult.additionalUserInfo?.username
+        val bio = authResult.additionalUserInfo?.profile?.get(DESCRIPTION_KEY_TWITTER).toString()
+        val bannerUrl = authResult.additionalUserInfo?.profile?.get(BANNER_URL_KEY_TWITTER).toString()
+        val twitterId = authResult.additionalUserInfo?.profile?.get(ID_KEY_TWITTER).toString()
         with(authResult.user!!){
-            insertUser(Users(uid,authResult.additionalUserInfo?.username,displayName,photoUrl.toString(),
-                authResult.additionalUserInfo?.profile?.get(DESCRIPTION_KEY_TWITTER).toString()))
+            insertUser(Users(uid,username,displayName,
+                photoUrl.toString(),bio,twitterId, bannerUrl))
         }
     }
 

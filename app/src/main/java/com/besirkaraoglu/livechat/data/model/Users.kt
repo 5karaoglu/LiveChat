@@ -5,5 +5,7 @@ data class Users(
     val username: String? = null,
     val name: String? = null,
     val photoUrl: String? = null,
-    val bio: String? = null
+    val bio: String? = null,
+    val twitterId: String? = null,
+    val bannerUrl: String? = null
 )
