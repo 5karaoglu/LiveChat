@@ -20,5 +20,14 @@
         android:id="@+id/mainFragment"
         android:name="com.besirkaraoglu.livechat.ui.main.MainFragment"
         android:label="fragment_main"
-        tools:layout="@layout/fragment_main" />
+        tools:layout="@layout/fragment_main" >
+        <action
+            android:id="@+id/action_mainFragment_to_userProfileBottomSheetFragment"
+            app:destination="@id/userProfileBottomSheetFragment" />
+    </fragment>
+    <dialog
+        android:id="@+id/userProfileBottomSheetFragment"
+        android:name="com.besirkaraoglu.livechat.ui.userprofile.UserProfileBottomSheetFragment"
+        android:label="fragment_user_profile_bottom_sheet"
+        tools:layout="@layout/fragment_user_profile_bottom_sheet" />
 </navigation>

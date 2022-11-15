@@ -27,6 +27,7 @@ import com.besirkaraoglu.livechat.core.service.LocationService
 import com.besirkaraoglu.livechat.core.utils.LocationServiceHandler
 import com.besirkaraoglu.livechat.core.utils.LocationServiceHandlerImpl
 import com.besirkaraoglu.livechat.core.utils.binding.viewBinding
+import com.besirkaraoglu.livechat.core.utils.navigate
 import com.besirkaraoglu.livechat.databinding.FragmentMainBinding
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
@@ -85,7 +86,9 @@ class MainFragment : BaseFragment(R.layout.fragment_main), OnMapReadyCallback,
     }
 
     private fun setUpView() {
-        binding.buttonSend.setOnClickListener { viewModel.sendData() }
+        binding.buttonSend.setOnClickListener { /*viewModel.sendData()*/
+            navigate(R.id.action_mainFragment_to_userProfileBottomSheetFragment)
+        }
         binding.buttonShareLocation.setOnClickListener { checkPermissionsAndRequestLocation() }
     }
 
