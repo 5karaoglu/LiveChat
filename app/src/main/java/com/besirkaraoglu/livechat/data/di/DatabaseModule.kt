@@ -26,7 +26,8 @@ object DatabaseModule {
     @Singleton
     fun provideUsersRepository(database: FirebaseDatabase): UsersRepository =
         UsersRepository(
-            database.reference.child(RealtimeDatabaseUtils.INSTANCE_USERS))
+            database.reference.child(RealtimeDatabaseUtils.INSTANCE_USERS),
+            database.reference.child(RealtimeDatabaseUtils.INSTANCE_LOCATION_RECORD))
 
     @Provides
     @Singleton

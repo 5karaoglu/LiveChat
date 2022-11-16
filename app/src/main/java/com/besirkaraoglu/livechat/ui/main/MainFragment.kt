@@ -8,6 +8,7 @@ import android.content.Intent
 import android.content.ServiceConnection
 import android.content.SharedPreferences
 import android.content.pm.PackageManager.PERMISSION_GRANTED
+import android.location.Location
 import android.net.Uri
 import android.os.Bundle
 import android.os.IBinder
@@ -21,13 +22,19 @@ import androidx.core.app.ActivityCompat
 import androidx.fragment.app.viewModels
 import com.besirkaraoglu.livechat.BuildConfig.APPLICATION_ID
 import com.besirkaraoglu.livechat.R
+import com.besirkaraoglu.livechat.core.BANNER_URL_KEY_TWITTER
+import com.besirkaraoglu.livechat.core.DESCRIPTION_KEY_TWITTER
+import com.besirkaraoglu.livechat.core.ID_KEY_TWITTER
 import com.besirkaraoglu.livechat.core.LocationReceiver
 import com.besirkaraoglu.livechat.core.base.BaseFragment
 import com.besirkaraoglu.livechat.core.service.LocationService
 import com.besirkaraoglu.livechat.core.utils.LocationServiceHandler
 import com.besirkaraoglu.livechat.core.utils.LocationServiceHandlerImpl
+import com.besirkaraoglu.livechat.core.utils.Resource
 import com.besirkaraoglu.livechat.core.utils.binding.viewBinding
 import com.besirkaraoglu.livechat.core.utils.navigate
+import com.besirkaraoglu.livechat.data.model.LocationRecord
+import com.besirkaraoglu.livechat.data.model.Users
 import com.besirkaraoglu.livechat.databinding.FragmentMainBinding
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
@@ -38,6 +45,8 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.material.snackbar.BaseTransientBottomBar.LENGTH_INDEFINITE
 import com.google.android.material.snackbar.Snackbar
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
 
@@ -58,6 +67,8 @@ class MainFragment : BaseFragment(R.layout.fragment_main), OnMapReadyCallback,
     private lateinit var map: GoogleMap
     private lateinit var fusedLocationProviderClient: FusedLocationProviderClient
 
+    private var cUser: Users? = null
+
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -67,6 +78,23 @@ class MainFragment : BaseFragment(R.layout.fragment_main), OnMapReadyCallback,
         if (savedInstanceState == null) viewModel.onFragmentCreated()
         setUpView()
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(requireContext())
+        getUser()
+    }
+
+    private fun getUser() {
+        if (cUser == null){
+            viewModel.queryUser(FirebaseAuth.getInstance().currentUser!!.uid)
+            viewModel.user.observe(viewLifecycleOwner){ result ->
+                when(result){
+                    is Resource.Empty -> {}
+                    is Resource.Error -> {}
+                    is Resource.Loading -> {}
+                    is Resource.Success -> {
+                        cUser = result.data
+                    }
+                }
+            }
+        }
     }
 
     private fun setLocationHandler() {
@@ -117,25 +145,6 @@ class MainFragment : BaseFragment(R.layout.fragment_main), OnMapReadyCallback,
             } else -> {
             // No location access granted.
         }
-        }
-    }
-
-    private fun requestPermissions() {
-        if (ActivityCompat.shouldShowRequestPermissionRationale(requireActivity(), ACCESS_COARSE_LOCATION)) {
-            // Provide an additional rationale to the user. This would happen if the user denied the
-            // request previously, but didn't check the "Don't ask again" checkbox.
-            Timber.tag(TAG).i("Displaying permission rationale to provide additional context.")
-            showSnackbar(R.string.permission_rationale, android.R.string.ok, View.OnClickListener {
-                // Request permission
-                startLocationPermissionRequest()
-            })
-
-        } else {
-            // Request permission. It's possible this can be auto answered if device policy
-            // sets the permission in a given state or the user denied the permission
-            // previously and checked "Never ask again".
-            Timber.tag(TAG).i("Requesting permission")
-            startLocationPermissionRequest()
         }
     }
 
@@ -199,7 +208,38 @@ class MainFragment : BaseFragment(R.layout.fragment_main), OnMapReadyCallback,
 
     private fun initLocationObserver() {
         viewModel.location.observe(viewLifecycleOwner){
-            map.addMarker(MarkerOptions().position(LatLng(it.latitude, it.longitude)).title("Marker"))
+            upsertLocationRecord(cUser!!,it)
+        }
+    }
+
+    private fun upsertLocationRecord(user: Users, location: Location){
+        val username = user.username
+        val bio = user.bio.toString()
+        val bannerUrl = user.bannerUrl.toString()
+        val twitterId = user.twitterId.toString()
+        val locationRecord =  with(user){
+            LocationRecord(
+                uid,
+                location.latitude.toString(),
+                location.longitude.toString(),
+                Users(uid,username,name,
+                photoUrl.toString(),bio,twitterId, bannerUrl)
+            )
+        }
+        viewModel.upsertLocationRecord(locationRecord)
+        viewModel.upsertResult.observe(viewLifecycleOwner){ result ->
+            when(result){
+                is Resource.Empty -> {}
+                is Resource.Error -> {
+                    Timber.d("Upsert failed!")
+                }
+                is Resource.Loading -> {
+                    Timber.d("Upsert started!")
+                }
+                is Resource.Success -> {
+                    Timber.d("Upsert succeed!")
+                }
+            }
         }
     }
 
