@@ -118,6 +118,12 @@ class MainFragment : BaseFragment(R.layout.fragment_main), OnMapReadyCallback,
             navigate(R.id.action_mainFragment_to_userProfileBottomSheetFragment)
         }
         binding.buttonShareLocation.setOnClickListener { checkPermissionsAndRequestLocation() }
+        binding.buttonMessages.setOnClickListener {
+            navigate(R.id.action_mainFragment_to_messagesFragment)
+        }
+        binding.buttonProfile.setOnClickListener {
+            navigate(R.id.action_mainFragment_to_profileFragment)
+        }
     }
 
 

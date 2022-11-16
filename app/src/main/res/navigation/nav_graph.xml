@@ -24,10 +24,35 @@
         <action
             android:id="@+id/action_mainFragment_to_userProfileBottomSheetFragment"
             app:destination="@id/userProfileBottomSheetFragment" />
+        <action
+            android:id="@+id/action_mainFragment_to_messagesFragment"
+            app:destination="@id/messagesFragment" />
+        <action
+            android:id="@+id/action_mainFragment_to_profileFragment"
+            app:destination="@id/profileFragment" />
     </fragment>
     <dialog
         android:id="@+id/userProfileBottomSheetFragment"
         android:name="com.besirkaraoglu.livechat.ui.userprofile.UserProfileBottomSheetFragment"
         android:label="fragment_user_profile_bottom_sheet"
         tools:layout="@layout/fragment_user_profile_bottom_sheet" />
+    <fragment
+        android:id="@+id/profileFragment"
+        android:name="com.besirkaraoglu.livechat.ui.profile.ProfileFragment"
+        android:label="fragment_profile"
+        tools:layout="@layout/fragment_profile" />
+    <fragment
+        android:id="@+id/messagesFragment"
+        android:name="com.besirkaraoglu.livechat.ui.messages.MessagesFragment"
+        android:label="fragment_messages"
+        tools:layout="@layout/fragment_messages" >
+        <action
+            android:id="@+id/action_messagesFragment_to_directMessageFragment"
+            app:destination="@id/directMessageFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/directMessageFragment"
+        android:name="com.besirkaraoglu.livechat.ui.messagescreen.DirectMessageFragment"
+        android:label="fragment_direct_message"
+        tools:layout="@layout/fragment_direct_message" />
 </navigation>
