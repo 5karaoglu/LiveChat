@@ -87,6 +87,7 @@ class LoginFragment : BaseFragment(R.layout.fragment_login) {
                     Timber.d("Insert Succeed.")
                     navigateToMain()
                 }
+                is Resource.Empty -> {}
             }
         }
     }
